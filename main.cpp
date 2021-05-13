@@ -9,7 +9,6 @@ using namespace std;
 ifstream f("grammar.in");
 
 string drum[10000];
-int n;
 
 unordered_map<string, vector<string>> p;
 set<string> cuvinte;
@@ -43,14 +42,14 @@ bool valid (int k)
     return true;
 }
 
-void Back(int k){
+void Back(int k, int n){
     if (drum[k - 1][0] == 'N' && nrTerminale(k - 1) <= n)
             for(int i = 0 ; i < p[drum[k - 1]].size() ; ++i)
             {
 
                 drum[k] = p[drum[k - 1]][i];
                 if(valid(k))
-                        Back(k+1);
+                        Back(k+1, n);
 
             }
 
@@ -59,12 +58,15 @@ void Back(int k){
                 for(int i = 0 ; i < p[drum[k - 1].substr(1,2)].size() ; ++i)
                 {
                     drum[k] = p[drum[k - 1].substr(1,2)][i];
-                    Back(k+1);
+                    Back(k+1, n);
                 }
 
     if (nrTerminale(k - 1) == n && drum[k - 1].find('N') == std::string::npos)
         {
-            cuvinte.insert(to_string(drum, k - 1));
+            if (to_string(drum, k - 1) == "")
+                cuvinte.insert("lambda");
+            else
+                cuvinte.insert(to_string(drum, k - 1));
         }
 
 }
@@ -72,6 +74,7 @@ void Back(int k){
 int main()
 {
     string a, b;
+    int n;
 
     while (f >> a >> b)
         p[a].push_back(b);
@@ -79,19 +82,27 @@ int main()
     cout << "Introduceti n: ";
     cin >> n;
 
-    drum[0] = "NS";
-    Back(1);
+    for (int i = 0; i <= n; ++i){
+
+    {
+      drum[0] = "NS";
+      Back(1,i);
 
     if (!(cuvinte.empty())){
-        cout << "Cuvintele de lungime " << n << " acceptate de gramatica sunt:\n";
+        cout << "Cuvintele de lungime " << i << " acceptate de gramatica sunt:\n";
 
         set<string> :: iterator itr;
 
         for (itr = cuvinte.begin(); itr != cuvinte.end(); itr++)
             cout << "   -" << (*itr) << "\n";
     }
-    else{
-        cout << "Gramatica nu accepta niciun cuvant de lungime " << n <<" !";
+    else
+        cout << "Gramatica nu accepta niciun cuvant de lungime " << i <<" !\n";
+    }
+
+
+    cuvinte.clear();
+
     }
 
     return 0;
