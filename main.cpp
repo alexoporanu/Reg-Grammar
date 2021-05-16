@@ -42,14 +42,14 @@ bool valid (int k)
     return true;
 }
 
-void Back(int k, int n){
+void bkt(int k, int n){
     if (drum[k - 1][0] == 'N' && nrTerminale(k - 1) <= n)
             for(int i = 0 ; i < p[drum[k - 1]].size() ; ++i)
             {
 
                 drum[k] = p[drum[k - 1]][i];
                 if(valid(k))
-                        Back(k+1, n);
+                        bkt(k+1, n);
 
             }
 
@@ -58,7 +58,7 @@ void Back(int k, int n){
                 for(int i = 0 ; i < p[drum[k - 1].substr(1,2)].size() ; ++i)
                 {
                     drum[k] = p[drum[k - 1].substr(1,2)][i];
-                    Back(k+1, n);
+                    bkt(k+1, n);
                 }
 
     if (nrTerminale(k - 1) == n && drum[k - 1].find('N') == std::string::npos)
@@ -86,7 +86,7 @@ int main()
 
     {
       drum[0] = "NS";
-      Back(1,i);
+      bkt(1,i);
 
     if (!(cuvinte.empty())){
         cout << "Cuvintele de lungime " << i << " acceptate de gramatica sunt:\n";
