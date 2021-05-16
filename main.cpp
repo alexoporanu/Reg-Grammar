@@ -13,7 +13,7 @@ string drum[10000];
 unordered_map<string, vector<string>> p;
 set<string> cuvinte;
 
-string to_string(string x[], int k)
+string toString(string x[], int k)
 {
     string sol = "";
 
@@ -63,10 +63,10 @@ void Back(int k, int n){
 
     if (nrTerminale(k - 1) == n && drum[k - 1].find('N') == std::string::npos)
         {
-            if (to_string(drum, k - 1) == "")
+            if (toString(drum, k - 1) == "")
                 cuvinte.insert("lambda");
             else
-                cuvinte.insert(to_string(drum, k - 1));
+                cuvinte.insert(toString(drum, k - 1));
         }
 
 }
